@@ -1,0 +1,808 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Guía simple: Amplificadores Operacionales</title>
+  <style>
+    :root {
+      --bg: #f4f7fb;
+      --paper: #ffffff;
+      --ink: #1f2937;
+      --muted: #4b5563;
+      --blue: #1d4ed8;
+      --blue-soft: #dbeafe;
+      --green: #047857;
+      --green-soft: #d1fae5;
+      --orange: #c2410c;
+      --orange-soft: #ffedd5;
+      --violet: #6d28d9;
+      --violet-soft: #ede9fe;
+      --red: #b91c1c;
+      --red-soft: #fee2e2;
+      --border: #d1d5db;
+      --shadow: 0 8px 24px rgba(0,0,0,0.08);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      background: var(--bg);
+      color: var(--ink);
+      line-height: 1.65;
+    }
+
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 32px 18px 48px;
+    }
+
+    .cover {
+      background: linear-gradient(135deg, #1d4ed8, #2563eb, #60a5fa);
+      color: white;
+      padding: 36px 28px;
+      border-radius: 18px;
+      box-shadow: var(--shadow);
+      margin-bottom: 28px;
+    }
+
+    .cover h1 {
+      margin: 0 0 10px 0;
+      font-size: 2.1rem;
+    }
+
+    .cover p {
+      margin: 6px 0;
+      font-size: 1.05rem;
+    }
+
+    .section {
+      background: var(--paper);
+      border-radius: 16px;
+      padding: 24px;
+      margin-bottom: 22px;
+      box-shadow: var(--shadow);
+      border: 1px solid #e5e7eb;
+    }
+
+    h2 {
+      margin-top: 0;
+      color: var(--blue);
+      border-bottom: 3px solid var(--blue-soft);
+      padding-bottom: 8px;
+      font-size: 1.6rem;
+    }
+
+    h3 {
+      color: #111827;
+      margin-top: 24px;
+      margin-bottom: 10px;
+      font-size: 1.2rem;
+    }
+
+    h4 {
+      margin-top: 18px;
+      margin-bottom: 8px;
+      color: var(--muted);
+    }
+
+    p {
+      margin: 10px 0;
+    }
+
+    ul, ol {
+      padding-left: 24px;
+    }
+
+    li {
+      margin-bottom: 8px;
+    }
+
+    .note,
+    .example,
+    .important,
+    .analogy,
+    .activity,
+    .formula,
+    .summary-box,
+    .image-box {
+      border-radius: 14px;
+      padding: 16px 18px;
+      margin: 16px 0;
+      border: 1px solid var(--border);
+    }
+
+    .note {
+      background: var(--blue-soft);
+      border-left: 8px solid var(--blue);
+    }
+
+    .example {
+      background: var(--green-soft);
+      border-left: 8px solid var(--green);
+    }
+
+    .important {
+      background: var(--red-soft);
+      border-left: 8px solid var(--red);
+    }
+
+    .analogy {
+      background: var(--orange-soft);
+      border-left: 8px solid var(--orange);
+    }
+
+    .activity {
+      background: #fef3c7;
+      border-left: 8px solid #d97706;
+    }
+
+    .formula {
+      background: var(--violet-soft);
+      border-left: 8px solid var(--violet);
+      font-family: "Courier New", monospace;
+      font-size: 1.05rem;
+    }
+
+    .summary-box {
+      background: #ecfeff;
+      border-left: 8px solid #0891b2;
+    }
+
+    .image-box {
+      background: #f9fafb;
+      border: 2px dashed #9ca3af;
+      text-align: center;
+      color: #6b7280;
+      min-height: 180px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-style: italic;
+    }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 18px;
+      margin-top: 16px;
+    }
+
+    .card {
+      border: 1px solid #e5e7eb;
+      border-radius: 14px;
+      padding: 18px;
+      background: #fcfcfd;
+    }
+
+    .card h4 {
+      margin-top: 0;
+      color: var(--blue);
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 14px;
+      margin-bottom: 18px;
+      overflow: hidden;
+      border-radius: 12px;
+    }
+
+    th, td {
+      border: 1px solid #d1d5db;
+      padding: 12px;
+      text-align: left;
+      vertical-align: top;
+    }
+
+    th {
+      background: #e0ecff;
+      color: #1e3a8a;
+    }
+
+    .footer {
+      text-align: center;
+      color: #6b7280;
+      font-size: 0.95rem;
+      margin-top: 16px;
+    }
+
+    .small {
+      font-size: 0.95rem;
+      color: var(--muted);
+    }
+
+    .big-center {
+      text-align: center;
+      font-size: 1.15rem;
+      font-weight: bold;
+      color: var(--blue);
+      margin: 18px 0;
+    }
+
+    @media print {
+      body {
+        background: white;
+      }
+
+      .section,
+      .cover {
+        box-shadow: none;
+        border: 1px solid #ccc;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+
+    <header class="cover">
+      <h1>Guía simple: Amplificadores Operacionales</h1>
+      <p><strong>Estudiante:</strong> Tomás Cifuentes</p>
+      <p><strong>Objetivo:</strong> Comprender las ideas básicas de los amplificadores operacionales y reconocer sus configuraciones más importantes.</p>
+      <p><strong>Meta final:</strong> Poder analizar y armar un circuito con dos o tres etapas usando amplificadores operacionales.</p>
+    </header>
+
+    <section class="section">
+      <h2>1. Objetivo de la guía</h2>
+      <p>
+        Esta guía busca explicar de forma simple qué es un amplificador operacional, cómo funciona en forma general
+        y cuáles son sus configuraciones básicas más importantes.
+      </p>
+      <p>
+        Al terminar esta guía, el estudiante debería poder:
+      </p>
+      <ul>
+        <li>Reconocer un amplificador operacional en un circuito.</li>
+        <li>Identificar sus entradas y salida.</li>
+        <li>Distinguir las configuraciones: no inversor, inversor, comparador, sumador y restador.</li>
+        <li>Comprender la idea de trabajar con circuitos por etapas.</li>
+      </ul>
+    </section>
+
+    <section class="section">
+      <h2>2. ¿Qué es un amplificador operacional?</h2>
+      <p>
+        Un <strong>amplificador operacional</strong>, también llamado <strong>AO</strong>, es un componente electrónico que sirve para
+        <strong>comparar</strong>, <strong>procesar</strong> y muchas veces <strong>amplificar voltajes</strong>.
+      </p>
+
+      <div class="note">
+        <strong>Idea clave:</strong> el AO observa dos entradas y genera una salida según la diferencia entre ellas.
+      </div>
+
+      <p>Un AO tiene tres conexiones principales para el análisis básico:</p>
+      <ul>
+        <li><strong>Entrada no inversora (+)</strong></li>
+        <li><strong>Entrada inversora (-)</strong></li>
+        <li><strong>Salida</strong></li>
+      </ul>
+
+      <p>
+        Además, necesita alimentación eléctrica para funcionar. Por ejemplo:
+      </p>
+      <ul>
+        <li>+12 V y -12 V</li>
+        <li>+5 V y 0 V</li>
+      </ul>
+
+      <div class="image-box">
+        <img src="AO.png" alt="Simbolo Amplificador Operacional" width="900" height="300">
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>3. Analogías para entender el AO</h2>
+
+      <div class="analogy">
+        <strong>Analogía 1: el AO como un juez</strong><br />
+        El AO compara dos valores:
+        uno que entra por el terminal <strong>+</strong> y otro que entra por el terminal <strong>-</strong>.
+        Luego decide cómo será la salida.
+      </div>
+
+      <div class="analogy">
+        <strong>Analogía 2: el AO como un árbitro</strong><br />
+        Si una entrada tiene un valor mayor que la otra, el AO responde en la salida según esa diferencia.
+      </div>
+
+      <div class="analogy">
+        <strong>Analogía 3: el AO como una máquina de decisión</strong><br />
+        Recibe información, la compara y luego entrega una respuesta.
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>4. Regla conceptual más importante</h2>
+      <p>
+        Cuando el AO tiene <strong>realimentación negativa</strong>, intenta que las dos entradas queden a un valor muy parecido.
+      </p>
+
+      <div class="important">
+        <strong>Muy importante:</strong> esta idea permite entender la mayoría de los circuitos con amplificadores operacionales.
+      </div>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Situación</th>
+            <th>Qué ocurre</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>La entrada + es mayor que la entrada -</td>
+            <td>La salida tiende a subir</td>
+          </tr>
+          <tr>
+            <td>La entrada - es mayor que la entrada +</td>
+            <td>La salida tiende a bajar</td>
+          </tr>
+          <tr>
+            <td>Las dos entradas son casi iguales y hay realimentación negativa</td>
+            <td>El AO trabaja de forma estable y útil</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section class="section">
+      <h2>5. Configuraciones básicas del amplificador operacional</h2>
+
+      <div class="grid-2">
+
+        <div class="card">
+          <h4>Amplificador no inversor</h4>
+          <p>La señal entra por la entrada <strong>(+)</strong>.</p>
+          <p>La señal sale <strong>amplificada</strong>, pero <strong>sin invertirse</strong>.</p>
+          <p>Si la entrada sube, la salida también sube.</p>
+        </div>
+
+        <div class="card">
+          <h4>Amplificador inversor</h4>
+          <p>La señal entra por la entrada <strong>(-)</strong>.</p>
+          <p>La salida sale <strong>amplificada</strong>, pero <strong>invertida</strong>.</p>
+          <p>Si la entrada sube, la salida baja.</p>
+        </div>
+
+        <div class="card">
+          <h4>Comparador</h4>
+          <p>Compara dos voltajes.</p>
+          <p>La salida cambia a nivel alto o bajo según cuál entrada sea mayor.</p>
+        </div>
+
+        <div class="card">
+          <h4>Sumador</h4>
+          <p>Toma dos o más señales y las combina en una sola salida.</p>
+        </div>
+
+        <div class="card">
+          <h4>Restador</h4>
+          <p>Obtiene la diferencia entre dos señales de entrada.</p>
+        </div>
+
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>6. Amplificador no inversor</h2>
+
+      <p>
+        En esta configuración, la señal de entrada llega a la entrada <strong>+</strong>.
+        La salida se amplifica, pero mantiene el mismo sentido de la señal original.
+      </p>
+
+      <div class="example">
+        <strong>Ejemplo simple:</strong><br />
+        Si la entrada aumenta, la salida también aumenta.<br />
+        Si la entrada disminuye, la salida también disminuye.
+      </div>
+
+      <div class="analogy">
+        <strong>Analogía:</strong> es como un megáfono que repite lo mismo, pero más fuerte.
+      </div>
+
+      <div class="formula">
+        Ganancia del no inversor:<br />
+        Av = 1 + (Rf / R1)
+      </div>
+
+      <div class="example">
+        <strong>Ejemplo numérico:</strong><br />
+        Si Rf = 20kΩ y R1 = 10kΩ,<br />
+        entonces Av = 1 + (20k / 10k) = 3
+      </div>
+
+      <p>
+        Eso significa que si entran <strong>2 V</strong>, pueden salir aproximadamente <strong>6 V</strong>,
+        siempre que la alimentación del AO lo permita.
+      </p>
+
+      <div class="image-box">
+        <img src="AONI.png" alt="Simbolo Amplificador Operacional" width="600" height="300">
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>7. Amplificador inversor</h2>
+
+      <p>
+        En esta configuración, la señal entra por la entrada <strong>-</strong>.
+        La entrada <strong>+</strong> normalmente se conecta a tierra o a una referencia.
+      </p>
+
+      <div class="example">
+        <strong>Comportamiento:</strong><br />
+        La salida se amplifica, pero cambia de sentido.
+      </div>
+
+      <div class="analogy">
+        <strong>Analogía:</strong> es como un reflejo en un espejo especial: la señal aparece “al revés”.
+      </div>
+
+      <div class="formula">
+        Ganancia del inversor:<br />
+        Av = - (Rf / Rin)
+      </div>
+
+      <div class="example">
+        <strong>Ejemplo numérico:</strong><br />
+        Si Rf = 20kΩ y Rin = 10kΩ,<br />
+        entonces Av = -2
+      </div>
+
+      <p>
+        Si entran <strong>1 V</strong>, la salida será aproximadamente <strong>-2 V</strong>.
+      </p>
+
+      <div class="image-box">
+        <img src="AOI.png" alt="Simbolo Amplificador Operacional" width="600" height="300">
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>8. Comparador</h2>
+
+      <p>
+        El comparador no busca amplificar una señal de manera proporcional.
+        Su función principal es <strong>comparar dos voltajes</strong>.
+      </p>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Condición</th>
+            <th>Resultado en la salida</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>V+ &gt; V-</td>
+            <td>La salida tiende a nivel alto</td>
+          </tr>
+          <tr>
+            <td>V- &gt; V+</td>
+            <td>La salida tiende a nivel bajo</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="example">
+        <strong>Ejemplo:</strong><br />
+        Si en la entrada + hay 3 V y en la entrada - hay 2 V, la salida se va a nivel alto.
+      </div>
+
+      <div class="analogy">
+        <strong>Analogía:</strong> es como un árbitro que decide quién tiene el valor mayor.
+      </div>
+
+      <p><strong>Usos comunes:</strong></p>
+      <ul>
+        <li>Activar un LED</li>
+        <li>Encender una alarma</li>
+        <li>Detectar si una señal superó un valor límite</li>
+      </ul>
+
+      <div class="image-box">
+        <img src="AOC.png" alt="Simbolo Amplificador Operacional" width="600" height="300">
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>9. Sumador</h2>
+
+      <p>
+        El sumador permite combinar varias señales de entrada en una sola salida.
+      </p>
+
+      <div class="example">
+        <strong>Ejemplo simple:</strong><br />
+        Si entran dos señales, una de 1 V y otra de 2 V,
+        la salida puede representar la suma de ambas, dependiendo del diseño del circuito.
+      </div>
+
+      <div class="analogy">
+        <strong>Analogía:</strong> es como juntar agua de dos mangueras en una sola tubería.
+      </div>
+
+      <p><strong>Usos:</strong></p>
+      <ul>
+        <li>Mezclar señales</li>
+        <li>Combinar sensores</li>
+        <li>Agregar una referencia a una señal</li>
+      </ul>
+
+      <div class="image-box">
+        <img src="AOS.png" alt="Simbolo Amplificador Operacional" width="600" height="300">
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>10. Restador</h2>
+
+      <p>
+        El restador entrega una salida relacionada con la diferencia entre dos señales.
+      </p>
+
+      <div class="example">
+        <strong>Ejemplo simple:</strong><br />
+        Si una entrada vale 5 V y la otra vale 2 V,
+        la salida puede representar una diferencia proporcional a 3 V.
+      </div>
+
+      <div class="analogy">
+        <strong>Analogía:</strong> es como preguntar cuánto le falta a un valor para alcanzar al otro.
+      </div>
+
+      <p><strong>Usos:</strong></p>
+      <ul>
+        <li>Comparar sensores</li>
+        <li>Eliminar una referencia</li>
+        <li>Medir diferencias pequeñas</li>
+      </ul>
+
+      <div class="image-box">
+        <img src="AOR.png" alt="Simbolo Amplificador Operacional" width="600" height="300">
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>11. Ideas fundamentales que se deben recordar</h2>
+
+      <div class="summary-box">
+        <ol>
+          <li>El AO compara dos entradas.</li>
+          <li>Puede amplificar, invertir, comparar, sumar o restar.</li>
+          <li>Las resistencias alrededor del AO definen su comportamiento.</li>
+          <li>La salida no puede superar el límite de su alimentación.</li>
+        </ol>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>12. Errores comunes</h2>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Error</th>
+            <th>Consecuencia</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Olvidar la alimentación</td>
+            <td>El AO no funciona</td>
+          </tr>
+          <tr>
+            <td>Confundir la entrada + con la entrada -</td>
+            <td>El circuito se comporta de otra forma</td>
+          </tr>
+          <tr>
+            <td>Usar resistencias incorrectas</td>
+            <td>La ganancia cambia</td>
+          </tr>
+          <tr>
+            <td>Esperar una salida mayor que la alimentación</td>
+            <td>La salida se satura</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section class="section">
+      <h2>13. Cómo analizar un circuito con AO</h2>
+
+      <p>Para analizar cualquier circuito con amplificador operacional, conviene seguir estos pasos:</p>
+
+      <ol>
+        <li>Identificar la entrada <strong>+</strong>, la entrada <strong>-</strong> y la salida.</li>
+        <li>Ver por dónde entra la señal principal.</li>
+        <li>Revisar si existe realimentación desde la salida hacia alguna entrada.</li>
+        <li>Observar las resistencias del circuito.</li>
+        <li>Preguntarse qué función cumple: amplificar, comparar, sumar o restar.</li>
+      </ol>
+
+      <div class="note">
+        <strong>Consejo:</strong> analizar por bloques o por etapas hace mucho más fácil entender el circuito completo.
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>14. Circuitos por etapas</h2>
+
+      <p>
+        En electrónica, muchas veces un circuito no tiene una sola función.
+        Puede tener <strong>dos o tres etapas</strong>, donde cada una cumple una tarea distinta.
+      </p>
+
+      <div class="grid-2">
+        <div class="card">
+          <h4>Opción 1: dos etapas</h4>
+          <p><strong>Etapa 1:</strong> amplificador no inversor</p>
+          <p><strong>Etapa 2:</strong> comparador</p>
+          <p>Primero se amplifica la señal y luego se decide si superó un nivel.</p>
+        </div>
+
+        <div class="card">
+          <h4>Opción 2: tres etapas</h4>
+          <p><strong>Etapa 1:</strong> sumador</p>
+          <p><strong>Etapa 2:</strong> amplificador</p>
+          <p><strong>Etapa 3:</strong> comparador</p>
+          <p>Se combinan señales, se amplifican y luego se toma una decisión.</p>
+        </div>
+
+        <div class="card">
+          <h4>Opción 3: tres etapas</h4>
+          <p><strong>Etapa 1:</strong> restador</p>
+          <p><strong>Etapa 2:</strong> amplificador no inversor</p>
+          <p><strong>Etapa 3:</strong> comparador</p>
+          <p>Muy útil para comparar sensores y detectar diferencias importantes.</p>
+        </div>
+      </div>
+
+      <div class="analogy">
+        <strong>Analogía:</strong> un circuito por etapas funciona como una pequeña fábrica:
+        una parte recibe la información, otra la procesa y otra toma la decisión final.
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>15. Ejemplos concretos de aplicación</h2>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Situación</th>
+            <th>Configuración útil</th>
+            <th>Qué hace</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Un sensor entrega muy poco voltaje</td>
+            <td>No inversor</td>
+            <td>Amplifica la señal para que sea más fácil medirla</td>
+          </tr>
+          <tr>
+            <td>Se quiere detectar si una temperatura superó un límite</td>
+            <td>Comparador</td>
+            <td>Activa una salida cuando se supera el umbral</td>
+          </tr>
+          <tr>
+            <td>Se quieren juntar dos señales</td>
+            <td>Sumador</td>
+            <td>Combina ambas señales en una salida</td>
+          </tr>
+          <tr>
+            <td>Se quiere conocer la diferencia entre dos sensores</td>
+            <td>Restador</td>
+            <td>Entrega una salida proporcional a la diferencia</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section class="section">
+      <h2>16. Actividades para el estudiante</h2>
+
+      <div class="activity">
+        <h3>Actividad 1: reconocer configuraciones</h3>
+        <p>
+          Observa distintos circuitos con AO e indica cuál corresponde a:
+        </p>
+        <ul>
+          <li>Amplificador no inversor</li>
+          <li>Amplificador inversor</li>
+          <li>Comparador</li>
+          <li>Sumador</li>
+          <li>Restador</li>
+        </ul>
+      </div>
+
+      <div class="activity">
+        <h3>Actividad 2: completar frases</h3>
+        <ol>
+          <li>El amplificador no inversor recibe la señal en la entrada ________.</li>
+          <li>El amplificador inversor cambia el ________ de la señal.</li>
+          <li>El comparador sirve para ________ dos voltajes.</li>
+          <li>El sumador permite ________ señales.</li>
+          <li>El restador permite obtener la ________ entre dos señales.</li>
+        </ol>
+      </div>
+
+      <div class="activity">
+        <h3>Actividad 3: análisis por etapas</h3>
+        <p>
+          Observa un circuito de dos o tres etapas y responde:
+        </p>
+        <ul>
+          <li>¿Qué hace la primera etapa?</li>
+          <li>¿Qué hace la segunda etapa?</li>
+          <li>¿La señal entra por la entrada + o por la entrada -?</li>
+          <li>¿La salida final amplifica, invierte o compara?</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>17. Evaluación breve</h2>
+
+      <ol>
+        <li>¿Qué significa la sigla AO?</li>
+        <li>¿Cuáles son las dos entradas principales de un AO?</li>
+        <li>¿Qué configuración amplifica sin invertir?</li>
+        <li>¿Qué configuración amplifica invirtiendo la señal?</li>
+        <li>¿Qué configuración compara dos voltajes?</li>
+        <li>¿Qué configuración suma señales?</li>
+        <li>¿Qué configuración obtiene la diferencia entre dos señales?</li>
+        <li>¿Por qué son importantes las resistencias alrededor del AO?</li>
+        <li>¿Por qué el AO necesita alimentación?</li>
+        <li>¿Qué significa que un circuito tenga varias etapas?</li>
+      </ol>
+    </section>
+
+    <section class="section">
+      <h2>18. Respuestas esperadas</h2>
+      <ol>
+        <li>Amplificador operacional.</li>
+        <li>Entrada no inversora (+) y entrada inversora (-).</li>
+        <li>Amplificador no inversor.</li>
+        <li>Amplificador inversor.</li>
+        <li>Comparador.</li>
+        <li>Sumador.</li>
+        <li>Restador.</li>
+        <li>Porque definen su comportamiento y la ganancia.</li>
+        <li>Porque necesita energía para funcionar.</li>
+        <li>Que el circuito procesa la señal en pasos sucesivos.</li>
+      </ol>
+    </section>
+
+    <section class="section">
+      <h2>19. Cierre</h2>
+      <p>
+        Un amplificador operacional no solo sirve para hacer una señal más grande.
+        También sirve para comparar, sumar, restar y tomar decisiones eléctricas simples.
+      </p>
+      <p>
+        Por eso es uno de los componentes más importantes de la electrónica analógica.
+      </p>
+
+      <div class="big-center">
+        Comprender las funciones básicas del AO permite construir circuitos más complejos por etapas.
+      </div>
+    </section>
+
+    <div class="footer">
+      Material didáctico de apoyo — Amplificadores operacionales
+    </div>
+  </div>
+</body>
+</html>
